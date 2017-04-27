@@ -1,0 +1,43 @@
+<div class="tags-input-div" ng-click="onDivFocus()">
+SelectedIndex: {{selectedIndex}}
+    <ul class="tag-list-ul">
+        <li
+                ng-repeat="tag in tagList track by $index"
+                class="tag-item"
+                ng-class="{'selected' : selectedIndex == $index && $index != readOnlyIndex}"
+                ng-dblclick="changeEmail()"
+        >
+
+            <span ng-class="{'readOnly' : $index == readOnlyIndex}" class="text-elipsis">
+                {{ tag.email }}
+            </span>
+
+            <a
+                    class="remove-button"
+                    ng-click="removeTag($index)"
+                    ng-if="$index != readOnlyIndex"
+            >
+                &times;
+            </a>
+
+        </li>
+    </ul>
+    <ng-form name="mailForm">
+
+    <input
+            type="text"
+            name="input"
+            class="tags-input"
+            placeholder="Your email address"
+            ng-model = "inputTag"
+            ng-keydown="input.keyDown($event)"
+            ng-focus="input.focus($event)"
+            ng-blur="input.blur($event)"
+            ng-class="{'invalid-tag': mailForm.input.$error.pattern}"
+            ng-pattern="regex"
+            autocomplete="off"
+    >
+
+    </ng-form>
+
+</div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tags Input</title>
+    <script src="node_modules/angular/angular.js"> </script>
+    <script src="app.js"></script>
+    <script src="tagsInput.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body ng-app="tags-app">
+
+<div ng-controller="MainController">
+
+    <tags-input
+            type="email"
+            max-tags="100"
+            read-only-index = '0'
+            display-property="email"
+            add-on-space="true"
+            add-on-semicolon="true"
+            add-on-blur="true"
+            on-tag-removed="removed($tag)"
+            on-tag-added="added($tag)"
+    >
+
+    </tags-input>
+
+</div>
+</body>
+
+</html>
