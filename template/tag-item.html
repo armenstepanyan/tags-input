@@ -1,0 +1,31 @@
+<span ng-if="!currentTag.isEditable" ng-dblclick="currentTag.setEditable(true)">
+    <span ng-class="{'readOnly' : $index == readOnlyIndex}" class="text-elipsis">
+                {{ tag.email }}
+    </span>
+
+    <a
+            class="remove-button"
+            ng-click="removeCurrentTag($index)"
+            ng-if="$index != readOnlyIndex"
+    >
+        &times;
+    </a>
+</span>
+
+<span ng-if="currentTag.isEditable">
+<ng-form name="mailFormTag" >
+          <input
+                  type="text"
+                  name="input"
+                  class="tags-input"
+                  ng-value="tag.email"
+                  ng-keydown="currentInput.keyDown($event)"
+                  ng-blur="currentInput.blur($event)"
+                  autocomplete="off"
+                  ng-class="{'invalid-tag': mailFormTag.input.$error.pattern}"
+                  ng-pattern="regex"
+          >
+
+
+</ng-form>
+</span>

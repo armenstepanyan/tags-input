@@ -1,35 +1,34 @@
 <div class="tags-input-div" ng-click="onDivFocus()">
-SelectedIndex: {{selectedIndex}}
     <ul class="tag-list-ul">
         <li
                 ng-repeat="tag in tagList track by $index"
                 class="tag-item"
                 ng-class="{'selected' : selectedIndex == $index && $index != readOnlyIndex}"
-                ng-dblclick="changeEmail()"
         >
 
-            <span ng-class="{'readOnly' : $index == readOnlyIndex}" class="text-elipsis">
-                {{ tag.email }}
-            </span>
-
-            <a
-                    class="remove-button"
-                    ng-click="removeTag($index)"
-                    ng-if="$index != readOnlyIndex"
+            <tag-item
+                    tag="tag"
+                    $index = "$index"
+                    read-only-index="readOnlyIndex"
+                    remove-tag="removeTag($index)"
+                    hide-tag-input = "data.hideTagInput"
+                    tag-list = "tagList"
+                    regex="regex"
+                    added-keys="addedKeys"
             >
-                &times;
-            </a>
+
+            </tag-item>
 
         </li>
     </ul>
-    <ng-form name="mailForm">
+    <ng-form name="mailForm"  ng-show="!data.hideTagInput">
 
     <input
             type="text"
             name="input"
             class="tags-input"
             placeholder="Your email address"
-            ng-model = "inputTag"
+            ng-model = "input.inputTag"
             ng-keydown="input.keyDown($event)"
             ng-focus="input.focus($event)"
             ng-blur="input.blur($event)"

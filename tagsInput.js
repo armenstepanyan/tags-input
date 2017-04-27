@@ -36,20 +36,11 @@
           semicolon: 186
         };
 
-        $scope.input = {};
-        $scope.newTag = {
-          newTag: false
-        };
 
-
-
+        init();
         //Pattern for email
-        $scope.regex = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+        $scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-        //Set items readOnly
-       // $scope.readOnlyIndex = 0;
-
-        $scope.selectedIndex = -1;
 
         $scope.input.keyDown = function ($event) {
           var keyCode = $event.keyCode;
@@ -64,9 +55,8 @@
           }
           else{
             $scope.selectedIndex = -1;
-            var addedKeys = [KEYS.enter, KEYS.semicolon, KEYS.comma, KEYS.space];
 
-            if(addedKeys.indexOf(keyCode) != -1){
+            if($scope.addedKeys.indexOf(keyCode) != -1){
               if(!isValidInput()) return;
               addTagToList($event);
             }
@@ -82,15 +72,15 @@
 
 
         function isValidInput() {
-          return (!$scope.mailForm.input.$error.pattern &&  $scope.inputTag);
+          return ($scope.mailForm && !$scope.mailForm.input.$error.pattern &&  $scope.input.inputTag);
         }
 
         function addTagToList($event) {
           var obj = {};
-          obj[$scope.displayProperty] = $scope.inputTag;
+          obj[$scope.displayProperty] = $scope.input.inputTag;
           $scope.tagList.push(obj);
           $scope.onTagAdded({$tag :obj});
-          $scope.inputTag = '';
+          $scope.input.inputTag = '';
 
           //If clicked comma, semicolon, prevent current symbol adding
           if($event){
@@ -184,6 +174,23 @@
           $element[0].getElementsByClassName('tags-input')[0].focus();
         }
 
+        function init() {
+
+          $scope.selectedIndex = -1;
+          $scope.hideTagInput = false;
+
+          $scope.addedKeys = [KEYS.enter, KEYS.semicolon, KEYS.comma, KEYS.space];
+
+          $scope.input = {
+            inputTag:''
+          };
+
+          $scope.data = {
+            hideTagInput: false
+          };
+
+        }
+
 
 
       }
@@ -191,3 +198,4 @@
     }
 
   }]);
+
