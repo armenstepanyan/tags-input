@@ -21,6 +21,13 @@
           {id:4 ,email: 'dd@gmail.com'},
         ];
 
+        function isBrowserFirefox() {
+          if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+            return true;
+          }
+          return false;
+        }
+
         var KEYS = {
           backspace: 8,
           tab: 9,
@@ -36,7 +43,9 @@
           semicolon: 186
         };
 
-
+        if(isBrowserFirefox()){
+          KEYS.semicolon = 59;
+        }
         init();
         //Pattern for email
         $scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
