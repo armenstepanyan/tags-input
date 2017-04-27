@@ -8,6 +8,7 @@ app.directive('tagItem',[function () {
       $index: '=',
       readOnlyIndex: '=',
       hideTagInput: '=',
+      selectedIndex: '=',
       removeTag: '&',
       tagList: '=',
       regex:'=',
@@ -24,8 +25,16 @@ app.directive('tagItem',[function () {
       }
 
       $scope.currentTag.setEditable = function (t) {
+        if($scope.$index == $scope.readOnlyIndex) return;
+        $scope.selectedIndex = -1;
         $scope.currentTag.isEditable = t;
         $scope.hideTagInput = t;
+        if(t){
+          setTimeout(function () {
+            $element.find('input')[0].focus();
+          },10)
+
+        }
       }
 
       $scope.currentInput.keyDown = function ($event) {
@@ -71,7 +80,13 @@ app.directive('tagItem',[function () {
         $scope.currentInput = {};
       }
 
+    },
+
+    controller: function($scope){
+      // $scope.test = "aaaa";
     }
   }
+
+
 
 }]);
