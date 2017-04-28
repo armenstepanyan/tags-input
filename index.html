@@ -12,20 +12,23 @@
 <body ng-app="tags-app">
 
 <div ng-controller="MainController">
+<input type="text" ng-model="formData.email">
 
-    <tags-input
+    <custom-tags-input
+            binded-data="formData"
+            binded-key="email"
             type="email"
             max-tags="100"
             read-only-index = "0"
             display-property="email"
-            add-on-space="true"
-            add-on-semicolon="true"
             add-on-blur="true"
             on-tag-removed="removed($tag)"
             on-tag-added="added($tag)"
+            allow-duplicate="true"
+            place-holder='Enter  email addresses'
     >
 
-    </tags-input>
+    </custom-tags-input>
 
     <!--read-only-index = " {{ x > 100 ? '2' : '3'}}"-->
 </div>

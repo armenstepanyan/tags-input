@@ -1,4 +1,4 @@
-.tags-input-div{
+custom-tags-input .tags-input-div{
     -webkit-appearance: textfield;
     padding: 1px;
     overflow: hidden;
@@ -30,7 +30,6 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 250px;
 }
 
 .tag-list-ul{
@@ -61,18 +60,18 @@
     float: right;
 }
 
-.readOnly  {
+custom-tags-input .readOnly  {
     color: #9a9898!important;
 }
 
-.selected{
+custom-tags-input .selected{
     background: red;
     border: 1px solid red;
 }
 
 
 
-tags-input .text-elipsis {
+custom-tags-input .text-elipsis {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -81,4 +80,18 @@ tags-input .text-elipsis {
     float: left;
 }
 
+
+custom-tags-input #inputTagDiv, custom-tags-input #inputTagItemDiv{
+    padding: 0px 5px;
+    visibility: hidden;
+    /*border: 1px solid;*/
+    position: absolute;
+    /*top:100px;*/
+    display: inline-block;
+}
+
+custom-tags-input .tag-input-font{
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 

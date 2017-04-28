@@ -1,5 +1,5 @@
 
-  app.directive('tagsInput', [function () {
+  app.directive('customTagsInput', [function () {
 
     return {
       restrict: 'E',
@@ -9,7 +9,11 @@
         displayProperty: '@',
         onTagRemoved: '&',
         onTagAdded: '&',
-        readOnlyIndex: '@'
+        readOnlyIndex: '@',
+        bindedData: '=',
+        bindedKey: '@',
+        allowDuplicate: '=',
+        placeHolder:'@'
       },
       templateUrl: '/template/tags-input.html',
       link: function ($scope, $element) {
@@ -21,31 +25,11 @@
           {id:4 ,email: 'dd@gmail.com'},
         ];
 
-        function isBrowserFirefox() {
-          if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-            return true;
-          }
-          return false;
-        }
 
-        var KEYS = {
-          backspace: 8,
-          tab: 9,
-          enter: 13,
-          escape: 27,
-          space: 32,
-          up: 38,
-          down: 40,
-          left: 37,
-          right: 39,
-          delete: 46,
-          comma: 188,
-          semicolon: 186
-        };
 
-        if(isBrowserFirefox()){
-          KEYS.semicolon = 59;
-        }
+        var KEYS = getHotKeys();
+
+
         init();
         //Pattern for email
         $scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -71,6 +55,11 @@
             }
           }
 
+          setTimeout(function () {
+            setInputWidth(true);
+          },10);
+
+
         };
 
         $scope.input.blur = function ($event) {
@@ -81,7 +70,27 @@
 
 
         function isValidInput() {
-          return ($scope.mailForm && !$scope.mailForm.input.$error.pattern &&  $scope.input.inputTag);
+
+          var allowDuplicate = $scope.allowDuplicate ? true : !hasItem($scope.input.inputTag);
+
+          return (
+                    $scope.mailForm &&
+                    !$scope.mailForm.input.$error.pattern &&
+                    $scope.input.inputTag &&
+                    allowDuplicate
+          );
+        }
+
+        function hasItem(_tag) {
+
+          var key = $scope.displayProperty;
+
+          for(var i = 0; i < $scope.tagList.length; i++){
+            if($scope.tagList[i][key] == _tag){
+              return true;
+            }
+          };
+          return false;
         }
 
         function addTagToList($event) {
@@ -135,7 +144,7 @@
 
             $scope.tagList.splice($index,1);
             $scope.selectedIndex = -1;
-
+            $scope.data.hideTagInput = false;
             $scope.onTagRemoved({$tag :_current_tag});
 
           }
@@ -183,10 +192,16 @@
           $element[0].getElementsByClassName('tags-input')[0].focus();
         }
 
+        function setInputWidth() {
+          var el  = angular.element(document.querySelector('#inputTagDiv'));
+          if(!el[0]) return;
+          $scope.inputWidth = el[0].clientWidth + 8;
+          $scope.$apply();
+        }
+
         function init() {
 
           $scope.selectedIndex = -1;
-          $scope.hideTagInput = false;
 
           $scope.addedKeys = [KEYS.enter, KEYS.semicolon, KEYS.comma, KEYS.space];
 
@@ -201,10 +216,40 @@
         }
 
 
+        function getHotKeys() {
+
+          var keys = {
+            backspace: 8,
+            tab: 9,
+            enter: 13,
+            escape: 27,
+            space: 32,
+            up: 38,
+            down: 40,
+            left: 37,
+            right: 39,
+            delete: 46,
+            comma: 188,
+            semicolon: 186
+          };
+
+
+          if (isBrowserFirefox()) {
+            KEYS.semicolon = 59;
+          }
+
+          function isBrowserFirefox() {
+            return (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)
+
+          }
+          return keys;
+        }
 
       }
 
     }
 
   }]);
+
+
 

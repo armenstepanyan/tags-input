@@ -12,7 +12,9 @@ app.directive('tagItem',[function () {
       removeTag: '&',
       tagList: '=',
       regex:'=',
-      addedKeys: '='
+      addedKeys: '=',
+      bindedData: '=',
+      bindedKey: '='
     },
     templateUrl: '/template/tag-item.html',
 
@@ -32,6 +34,7 @@ app.directive('tagItem',[function () {
         if(t){
           setTimeout(function () {
             $element.find('input')[0].focus();
+            setInputItemWidth();
           },10)
 
         }
@@ -45,6 +48,10 @@ app.directive('tagItem',[function () {
             editTag();
           }
 
+          setTimeout(function () {
+            setInputItemWidth();
+          }, 10);
+
         //$scope.onKeydown({$event: $event});
       };
 
@@ -55,7 +62,7 @@ app.directive('tagItem',[function () {
 
       $scope.currentInput.blur = function ($event) {
         editTag('blur');
-      }
+      };
 
 
       function editTag(eventType) {
@@ -69,8 +76,22 @@ app.directive('tagItem',[function () {
         }
         if(!isValidInput()) return;
 
+        if($scope.bindedData){
+          var key = $scope.bindedKey;
+          if($scope.bindedData[key] == $scope.tagList[$scope.$index].email){
+            $scope.bindedData[key] = $scope.currentTagInputValue;
+          }
+
+        }
         $scope.tagList[$scope.$index].email =  $scope.currentTagInputValue;
         $scope.currentTag.setEditable(false);
+      }
+
+      function setInputItemWidth() {
+        var el  = angular.element(document.querySelector('#inputTagItemDiv'));
+        if(!el[0]) return;
+        $scope.inputTagWidth = el[0].clientWidth + 8;
+        $scope.$apply();
       }
 
       function init() {
@@ -83,7 +104,7 @@ app.directive('tagItem',[function () {
     },
 
     controller: function($scope){
-      // $scope.test = "aaaa";
+
     }
   }
 

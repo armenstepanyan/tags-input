@@ -17,7 +17,7 @@
           <input
                   type="text"
                   name="input"
-                  class="tags-input"
+                  class="tags-input tag-input-font"
                   ng-value="tag.email"
                   ng-keydown="currentInput.keyDown($event)"
                   ng-blur="currentInput.blur($event)"
@@ -25,10 +25,12 @@
                   ng-class="{'invalid-tag': mailFormTag.input.$error.pattern}"
                   ng-pattern="regex"
                   ng-model="tagEmail"
+                  ng-style="{'width': inputTagWidth  ? inputTagWidth+'px' : 'auto'}"
           >
 
 
 
 </ng-form>
-
+    <div id="inputTagItemDiv" class="tag-input-font">{{ mailFormTag.input.$viewValue || tag.email}}</div>
 </span>
+

@@ -7,6 +7,10 @@ app.controller('MainController',["$scope",function ($scope) {
         console.log($tag);
       };
 
+      $scope.formData = {
+        email:"bb@gmail.com"
+      };
+
       $scope.x = 5;
       $scope.added = function ($tag) {
         console.log($tag);

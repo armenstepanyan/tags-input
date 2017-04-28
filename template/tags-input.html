@@ -16,6 +16,8 @@
                     regex="regex"
                     added-keys="addedKeys"
                     selected-index="selectedIndex"
+                    binded-data="bindedData",
+                    binded-key="bindedKey"
             >
 
             </tag-item>
@@ -27,17 +29,19 @@
     <input
             type="text"
             name="input"
-            class="tags-input"
-            placeholder="Your email address"
+            class="tags-input tag-input-font"
+            placeholder="{{ placeHolder || 'Enter value'}}"
             ng-model = "input.inputTag"
             ng-keydown="input.keyDown($event)"
             ng-focus="input.focus($event)"
             ng-blur="input.blur($event)"
-            ng-class="{'invalid-tag': mailForm.input.$error.pattern}"
+            ng-class="{'invalid-tag': !isValidInput()}"
             ng-pattern="regex"
             autocomplete="off"
+            ng-style="{'width': inputWidth && mailForm.input.$viewValue  ? inputWidth+'px' : 'auto'}"
     >
 
     </ng-form>
-
+    <div id="inputTagDiv" class="tag-input-font">{{ mailForm.input.$viewValue}}</div>
 </div>
+
