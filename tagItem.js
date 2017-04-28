@@ -68,7 +68,7 @@ app.directive('tagItem',[function () {
       function editTag(eventType) {
         $scope.currentTagInputValue = $element.find('input')[0].value;
         if(eventType == "blur"){
-          if(! $scope.currentTagInputValue) {
+          if(! $scope.currentTagInputValue || !isValidInput()) { // TODO
             $scope.currentTag.setEditable(false);
             $scope.removeTag(); //If tag empty, remove current tag
 

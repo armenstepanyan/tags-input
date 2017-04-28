@@ -18,14 +18,15 @@
             binded-data="formData"
             binded-key="email"
             type="email"
-            max-tags="100"
+            max-tags="5"
             read-only-index = "0"
             display-property="email"
             add-on-blur="true"
             on-tag-removed="removed($tag)"
             on-tag-added="added($tag)"
-            allow-duplicate="true"
+            allow-duplicate="false"
             place-holder='Enter  email addresses'
+            error-messages = "errorMessages"
     >
 
     </custom-tags-input>

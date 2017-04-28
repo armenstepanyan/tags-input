@@ -13,9 +13,12 @@
         bindedData: '=',
         bindedKey: '@',
         allowDuplicate: '=',
-        placeHolder:'@'
+        placeHolder:'@',
+        maxTags: '=',
+        errorMessages: '='
       },
       templateUrl: '/template/tags-input.html',
+
       link: function ($scope, $element) {
 
         $scope.tagList = [
@@ -25,7 +28,11 @@
           {id:4 ,email: 'dd@gmail.com'},
         ];
 
-
+        //TODO
+        $scope.options = {
+          isDuplicate: false,
+          isTagsMax: false,
+        };
 
         var KEYS = getHotKeys();
 
@@ -59,6 +66,7 @@
             setInputWidth(true);
           },10);
 
+          validateWithOptions();
 
         };
 
@@ -66,19 +74,42 @@
           if(isValidInput()){
             addTagToList();
           }
+
         }
 
+        // $scope.isValidInputTest = function () {
+        //   isValidInput();
+        // }
 
         function isValidInput() {
 
-          var allowDuplicate = $scope.allowDuplicate ? true : !hasItem($scope.input.inputTag);
+          var allowDuplicate = ($scope.allowDuplicate == true) ? true : !hasItem($scope.input.inputTag);
+          var isValidMaxTags = isValidTagsCount();
+
+          validateWithOptions();
+
 
           return (
                     $scope.mailForm &&
                     !$scope.mailForm.input.$error.pattern &&
                     $scope.input.inputTag &&
-                    allowDuplicate
+                    allowDuplicate &&
+                    isValidMaxTags
+
           );
+        };
+
+        function validateWithOptions() {
+          if($scope.allowDuplicate == false){
+            $scope.options.isDuplicate = hasItem($scope.input.inputTag);
+          }
+
+          if($scope.maxTags){
+            $scope.options.isTagsMax = !isValidTagsCount();
+          }
+          if(!$scope.input.inputTag){
+            $scope.options.isTagsMax = false;
+          }
         }
 
         function hasItem(_tag) {
@@ -91,6 +122,11 @@
             }
           };
           return false;
+        }
+
+        function isValidTagsCount() {
+          var maxTags = $scope.maxTags ? $scope.maxTags : false;
+          return maxTags ? ($scope.tagList.length < $scope.maxTags) : true;
         }
 
         function addTagToList($event) {
@@ -244,6 +280,10 @@
           }
           return keys;
         }
+
+      },
+
+      controller: function ($scope) {
 
       }
 

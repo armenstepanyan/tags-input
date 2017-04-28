@@ -43,5 +43,17 @@
 
     </ng-form>
     <div id="inputTagDiv" class="tag-input-font">{{ mailForm.input.$viewValue}}</div>
+
+</div>
+
+<!--TODO-->
+<div>
+
+    <p ng-show="mailForm.input && mailForm.input.$error.pattern">{{ errorMessages.patternError || 'Not valid data'}}</p>
+    <p ng-show="options.isTagsMax" >{{ errorMessages.maxTags || 'Tags count is maximum'}}</p>
+    <p ng-show="options.isDuplicate" >{{ errorMessages.duplicateTag || 'Duplicated Tag '}}</p>
+{{ options}}
+
+
 </div>
 
