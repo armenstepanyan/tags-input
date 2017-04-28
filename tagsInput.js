@@ -173,7 +173,7 @@
 
         $scope.removeTag = function ($index) {
 
-          if($index > 0 && $index < $scope.tagList.length){
+          if($index >= 0 && $index < $scope.tagList.length){
             if($index ==  $scope.readOnlyIndex) return;
 
             var _current_tag = $scope.tagList[$index];

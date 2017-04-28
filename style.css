@@ -65,8 +65,9 @@ custom-tags-input .readOnly  {
 }
 
 custom-tags-input .selected{
-    background: red;
-    border: 1px solid red;
+    /*background: red;*/
+    /*border: 1px solid red;*/
+    background-color: #D0D0D0
 }
 
 
