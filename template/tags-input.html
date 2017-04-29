@@ -34,6 +34,7 @@
             ng-model = "input.inputTag"
             ng-keydown="input.keyDown($event)"
             ng-focus="input.focus($event)"
+			ng-click="input.click($event)"
             ng-blur="input.blur($event)"
             ng-class="{'invalid-tag': !isValidInput()}"
             ng-pattern="regex"
@@ -47,12 +48,13 @@
 </div>
 
 <!--TODO-->
-<div>
+<div class="error-container">
 
     <p ng-show="mailForm.input && mailForm.input.$error.pattern">{{ errorMessages.patternError || 'Not valid data'}}</p>
-    <p ng-show="options.isTagsMax" >{{ errorMessages.maxTags || 'Tags count is maximum'}}</p>
-    <p ng-show="options.isDuplicate" >{{ errorMessages.duplicateTag || 'Duplicated Tag '}}</p>
-{{ options}}
+    <p ng-show="mailForm.$error.isTagsMax" >{{ errorMessages.maxTags || 'Tags count is maximum'}}</p>
+    <p ng-show="mailForm.$error.isDuplicate" >{{ errorMessages.duplicateTag || 'Duplicated Tag '}}</p>
+
+	
 
 
 </div>

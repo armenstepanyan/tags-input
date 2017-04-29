@@ -12,14 +12,16 @@
 <body ng-app="tags-app">
 
 <div ng-controller="MainController">
-<input type="text" ng-model="formData.email">
+<form name="submitForm">
+<p><input type="text" ng-model="formData.email"></p>
 
     <custom-tags-input
+			tag-list="tagList"	
             binded-data="formData"
             binded-key="email"
             type="email"
-            max-tags="5"
-            read-only-index = "11"
+            max-tags="15"
+            read-only-index = "0"
             display-property="email"
             add-on-blur="true"
             on-tag-removed="removed($tag)"
@@ -32,6 +34,9 @@
     </custom-tags-input>
 
     <!--read-only-index = " {{ x > 100 ? '2' : '3'}}"-->
+	
+	<input type="submit" ng-click="submit()" value="Submit">
+	</form>
 </div>
 </body>
 

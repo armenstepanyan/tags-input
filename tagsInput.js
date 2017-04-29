@@ -5,7 +5,7 @@
       restrict: 'E',
       trasnclude: true,
       scope: {
-        list: '=',
+        tagList: '=',
         displayProperty: '@',
         onTagRemoved: '&',
         onTagAdded: '&',
@@ -21,21 +21,21 @@
 
       link: function ($scope, $element) {
 
-        $scope.tagList = [
+        /*$scope.tagList = [
           {id:1 ,email: 'aa@gmail.com'},
           {id:2 ,email: 'bb@gmail.com'},
           {id:3 ,email: 'cc@gmail.com'},
           {id:4 ,email: 'dd@gmail.com'},
         ];
-
-        //TODO
-        $scope.options = {
-          isDuplicate: false,
-          isTagsMax: false,
-        };
-
+*/
+   
         var KEYS = getHotKeys();
 
+		$scope.$watch('tagList', function(value){
+			if(value){				
+				validateWithOptions();
+			};
+		});
 
         init();
         //Pattern for email
@@ -75,49 +75,51 @@
             addTagToList();
           }
 
-        }
+        };
+		
+		$scope.input.focus = function($event){
+			$scope.selectedIndex = -1;
+		};
+		
+		$scope.input.click = function($event){
+			$scope.selectedIndex = -1;
+		};
 
         // $scope.isValidInputTest = function () {
         //   isValidInput();
         // }
 
         function isValidInput() {
-
-          var allowDuplicate = ($scope.allowDuplicate == true) ? true : !hasItem($scope.input.inputTag);
-          var isValidMaxTags = isValidTagsCount();
-
+			
           validateWithOptions();
-
 
           return (
                     $scope.mailForm &&
                     !$scope.mailForm.input.$error.pattern &&
                     $scope.input.inputTag &&
-                    allowDuplicate &&
-                    isValidMaxTags
+					!$scope.mailForm.$error.isTagsMax &&
+					!$scope.mailForm.$error.isDuplicate                    
 
           );
         };
 
         function validateWithOptions() {
           if($scope.allowDuplicate == false){
-            $scope.options.isDuplicate = hasItem($scope.input.inputTag);
+            $scope.mailForm.input.$setValidity('isDuplicate', !hasItem($scope.input.inputTag));
           }
 
-          if($scope.maxTags){
-            $scope.options.isTagsMax = !isValidTagsCount();
-          }
-          if(!$scope.input.inputTag){
-            $scope.options.isTagsMax = false;
-          }
+          if($scope.maxTags){           
+			$scope.mailForm.input.$setValidity('isTagsMax',isValidTagsCount());
+          }      
+		  
         }
 
-        function hasItem(_tag) {
+        function hasItem(_tagValue) {
 
           var key = $scope.displayProperty;
 
           for(var i = 0; i < $scope.tagList.length; i++){
-            if($scope.tagList[i][key] == _tag){
+            if($scope.tagList[i][key] == _tagValue){
               return true;
             }
           };
@@ -125,14 +127,17 @@
         }
 
         function isValidTagsCount() {
+			
           var maxTags = $scope.maxTags ? $scope.maxTags : false;
-          return maxTags ? ($scope.tagList.length < $scope.maxTags) : true;
+		  var tagCount = ($scope.input.inputTag) ? $scope.tagList.length+1 : $scope.tagList.length;
+          return maxTags ? (tagCount < $scope.maxTags) : true;
         }
 
         function addTagToList($event) {
           var obj = {};
           obj[$scope.displayProperty] = $scope.input.inputTag;
           $scope.tagList.push(obj);
+		  //call parent scope callback function
           $scope.onTagAdded({$tag :obj});
           $scope.input.inputTag = '';
 
@@ -145,8 +150,7 @@
         }
 
         function attachEventsForItems(keyCode) {
-          var itemLength = $scope.tagList.length;
-
+          
           switch (keyCode) {
             case KEYS.right:
               moveRight();
@@ -162,10 +166,8 @@
                 moveLeft();
               }
               else {
-                $scope.removeTag( $scope.selectedIndex);
-                $scope.selectedIndex = -1;
+                $scope.removeTag( $scope.selectedIndex);                
               }
-
               break;
           }
         }
@@ -182,6 +184,7 @@
             $scope.selectedIndex = -1;
             $scope.data.hideTagInput = false;
             $scope.onTagRemoved({$tag :_current_tag});
+			validateWithOptions();
 
           }
 

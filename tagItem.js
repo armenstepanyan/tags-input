@@ -78,12 +78,12 @@ app.directive('tagItem',[function () {
 
         if($scope.bindedData){
           var key = $scope.bindedKey;
-          if($scope.bindedData[key] == $scope.tagList[$scope.$index].email){
+          if($scope.bindedData[key] == $scope.tagList[$scope.$index][key]){
             $scope.bindedData[key] = $scope.currentTagInputValue;
           }
 
         }
-        $scope.tagList[$scope.$index].email =  $scope.currentTagInputValue;
+        $scope.tagList[$scope.$index][key] =  $scope.currentTagInputValue;
         $scope.currentTag.setEditable(false);
       }
 

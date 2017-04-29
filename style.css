@@ -96,3 +96,7 @@ custom-tags-input .tag-input-font{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.error-container p{
+color:red;
+}
+
