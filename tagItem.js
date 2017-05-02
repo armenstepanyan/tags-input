@@ -5,16 +5,17 @@ app.directive('tagItem',[function () {
     trasnclude: true,
     scope: {
       tag: '=',
-      $index: '=',
-      readOnlyIndex: '=',
+      $index: '@',
+      readOnlyIndex: '@',
       hideTagInput: '=',
-      selectedIndex: '=',
+      selectedIndex: '@',
       removeTag: '&',
       tagList: '=',
       regex:'=',
       addedKeys: '=',
       bindedData: '=',
-      bindedKey: '='
+      bindedKey: '=',
+      displayProperty:'@'
     },
     templateUrl: '/template/tag-item.html',
 
@@ -78,12 +79,13 @@ app.directive('tagItem',[function () {
 
         if($scope.bindedData){
           var key = $scope.bindedKey;
-          if($scope.bindedData[key] == $scope.tagList[$scope.$index][key]){
+          var displayKey = $scope.displayProperty;
+          if($scope.bindedData[key] == $scope.tagList[$scope.$index][displayKey]){
             $scope.bindedData[key] = $scope.currentTagInputValue;
           }
 
         }
-        $scope.tagList[$scope.$index][key] =  $scope.currentTagInputValue;
+        $scope.tagList[$scope.$index][displayKey] =  $scope.currentTagInputValue;
         $scope.currentTag.setEditable(false);
       }
 

@@ -8,15 +8,16 @@
 
             <tag-item
                     tag="tag"
-                    $index = "$index"
-                    read-only-index="readOnlyIndex"
+                    $index = "{{ $index }}"
+                    read-only-index="{{ readOnlyIndex }}"
+                    selected-index="{{ selectedIndex }}"
+                    display-property="{{ displayProperty }}"
                     remove-tag="removeTag($index)"
                     hide-tag-input = "data.hideTagInput"
                     tag-list = "tagList"
                     regex="regex"
                     added-keys="addedKeys"
-                    selected-index="selectedIndex"
-                    binded-data="bindedData",
+                    binded-data="bindedData"
                     binded-key="bindedKey"
             >
 
