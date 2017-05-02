@@ -277,7 +277,7 @@
 
 
           if (isBrowserFirefox()) {
-            KEYS.semicolon = 59;
+            keys.semicolon = 59;
           }
 
           function isBrowserFirefox() {
