@@ -28,14 +28,17 @@
           {id:4 ,email: 'dd@gmail.com'},
         ];
 */
-   
+
         var KEYS = getHotKeys();
 
-		$scope.$watch('tagList', function(value){
-			if(value){				
-				validateWithOptions();
-			};
-		});
+        $scope.$watch('tagList', function(value){
+          if(value){
+            validateWithOptions();
+            setTimeout(function () {
+              setInputWidth();
+            },10);
+          }
+        });
 
         init();
         //Pattern for email
@@ -50,8 +53,8 @@
 
           if(hotKeys.indexOf(keyCode) != -1 && isInputValueNull){
             $event.preventDefault();
-             $event.stopPropagation();
-             attachEventsForItems(keyCode);
+            $event.stopPropagation();
+            attachEventsForItems(keyCode);
           }
           else{
             $scope.selectedIndex = -1;
@@ -76,29 +79,29 @@
           }
 
         };
-		
-		$scope.input.focus = function($event){
-			$scope.selectedIndex = -1;
-		};
-		
-		$scope.input.click = function($event){
-			$scope.selectedIndex = -1;
-		};
+
+        $scope.input.focus = function($event){
+          $scope.selectedIndex = -1;
+        };
+
+        $scope.input.click = function($event){
+          $scope.selectedIndex = -1;
+        };
 
         // $scope.isValidInputTest = function () {
         //   isValidInput();
         // }
 
         function isValidInput() {
-			
+
           validateWithOptions();
 
           return (
-                    $scope.mailForm &&
-                    !$scope.mailForm.input.$error.pattern &&
-                    $scope.input.inputTag &&
-					!$scope.mailForm.$error.isTagsMax &&
-					!$scope.mailForm.$error.isDuplicate                    
+            $scope.mailForm &&
+            !$scope.mailForm.input.$error.pattern &&
+            $scope.input.inputTag &&
+            !$scope.mailForm.$error.isTagsMax &&
+            !$scope.mailForm.$error.isDuplicate
 
           );
         };
@@ -108,10 +111,10 @@
             $scope.mailForm.input.$setValidity('isDuplicate', !hasItem($scope.input.inputTag));
           }
 
-          if($scope.maxTags){           
-			$scope.mailForm.input.$setValidity('isTagsMax',isValidTagsCount());
-          }      
-		  
+          if($scope.maxTags){
+            $scope.mailForm.input.$setValidity('isTagsMax',isValidTagsCount());
+          }
+
         }
 
         function hasItem(_tagValue) {
@@ -127,9 +130,9 @@
         }
 
         function isValidTagsCount() {
-			
+
           var maxTags = $scope.maxTags ? $scope.maxTags : false;
-		  var tagCount = ($scope.input.inputTag) ? $scope.tagList.length+1 : $scope.tagList.length;
+          var tagCount = ($scope.input.inputTag) ? $scope.tagList.length+1 : $scope.tagList.length;
           return maxTags ? (tagCount < $scope.maxTags) : true;
         }
 
@@ -137,7 +140,7 @@
           var obj = {};
           obj[$scope.displayProperty] = $scope.input.inputTag;
           $scope.tagList.push(obj);
-		  //call parent scope callback function
+          //call parent scope callback function
           $scope.onTagAdded({$tag :obj});
           $scope.input.inputTag = '';
 
@@ -150,7 +153,7 @@
         }
 
         function attachEventsForItems(keyCode) {
-          
+
           switch (keyCode) {
             case KEYS.right:
               moveRight();
@@ -166,7 +169,7 @@
                 moveLeft();
               }
               else {
-                $scope.removeTag( $scope.selectedIndex);                
+                $scope.removeTag( $scope.selectedIndex);
               }
               break;
           }
@@ -184,7 +187,7 @@
             $scope.selectedIndex = -1;
             $scope.data.hideTagInput = false;
             $scope.onTagRemoved({$tag :_current_tag});
-			validateWithOptions();
+            validateWithOptions();
 
           }
 
@@ -192,7 +195,7 @@
 
         function moveLeft() {
 
-          if($scope.selectedIndex == -1){
+          if($scope.selectedIndex < 0){
             $scope.selectedIndex = $scope.tagList.length - 1;
             return;
           }
@@ -290,9 +293,9 @@
 
       }
 
+
     }
 
   }]);
-
 
 

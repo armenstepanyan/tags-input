@@ -29,6 +29,14 @@ app.directive('tagItem',[function () {
 
       $scope.currentTag.setEditable = function (t) {
         if($scope.$index == $scope.readOnlyIndex) return;
+        // TODO
+        // if(angular.element('.tags-input.tag-input-font.ng-invalid').length) {
+        //   return
+        // };
+
+        if(document.querySelector('.tags-input.tag-input-font.ng-invalid')) {
+          return;
+        };
         $scope.selectedIndex = -1;
         $scope.currentTag.isEditable = t;
         $scope.hideTagInput = t;
@@ -45,15 +53,23 @@ app.directive('tagItem',[function () {
 
         var keyCode = $event.keyCode;
 
-          if($scope.addedKeys.indexOf(keyCode) != -1){
-            editTag();
+        var deleteKeys = { backspace: 8,  delete: 46 };
+
+        if($scope.addedKeys.indexOf(keyCode) != -1){
+          editTag();
+        }
+
+        if(keyCode == deleteKeys.backspace || keyCode == deleteKeys.delete){
+          if(getCurrentInputValue() == ""){
+            $scope.currentTag.setEditable(false);
+            $scope.removeTag();
           }
+        }
 
-          setTimeout(function () {
-            setInputItemWidth();
-          }, 10);
+        setTimeout(function () {
+          setInputItemWidth();
+        }, 10);
 
-        //$scope.onKeydown({$event: $event});
       };
 
       function isValidInput() {
@@ -67,9 +83,9 @@ app.directive('tagItem',[function () {
 
 
       function editTag(eventType) {
-        $scope.currentTagInputValue = $element.find('input')[0].value;
+        $scope.currentTagInputValue = getCurrentInputValue();
         if(eventType == "blur"){
-          if(! $scope.currentTagInputValue || !isValidInput()) { // TODO
+          if(! $scope.currentTagInputValue ) { // @TODO
             $scope.currentTag.setEditable(false);
             $scope.removeTag(); //If tag empty, remove current tag
 
@@ -87,6 +103,10 @@ app.directive('tagItem',[function () {
         }
         $scope.tagList[$scope.$index][displayKey] =  $scope.currentTagInputValue;
         $scope.currentTag.setEditable(false);
+      }
+
+      function getCurrentInputValue() {
+        return  $element.find('input')[0].value;
       }
 
       function setInputItemWidth() {
