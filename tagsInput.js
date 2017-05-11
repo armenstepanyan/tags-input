@@ -12,9 +12,9 @@
         readOnlyIndex: '@',
         bindedData: '=',
         bindedKey: '@',
-        allowDuplicate: '=',
+        allowDuplicate: '&',
         placeHolder:'@',
-        maxTags: '=',
+        maxTags: '@',
         errorMessages: '='
       },
       templateUrl: '/template/tags-input.html',
@@ -107,7 +107,7 @@
         };
 
         function validateWithOptions() {
-          if($scope.allowDuplicate == false){
+          if($scope.allowDuplicate() == false){
             $scope.mailForm.input.$setValidity('isDuplicate', !hasItem($scope.input.inputTag));
           }
 
@@ -200,6 +200,10 @@
             return;
           }
           $scope.selectedIndex--;
+          if($scope.selectedIndex == -1){
+            $scope.selectedIndex = $scope.tagList.length - 1;
+            return
+          };
           if($scope.selectedIndex == $scope.readOnlyIndex){
 
             if($scope.tagList.length == 1){
