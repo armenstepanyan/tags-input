@@ -15,24 +15,18 @@
         allowDuplicate: '&',
         placeHolder:'@',
         maxTags: '@',
-        errorMessages: '='
+        errorMessages: '=',
+        regex: '='
       },
       templateUrl: '/template/tags-input.html',
 
       link: function ($scope, $element) {
 
-        /*$scope.tagList = [
-          {id:1 ,email: 'aa@gmail.com'},
-          {id:2 ,email: 'bb@gmail.com'},
-          {id:3 ,email: 'cc@gmail.com'},
-          {id:4 ,email: 'dd@gmail.com'},
-        ];
-*/
-
         var KEYS = getHotKeys();
 
         $scope.$watch('tagList', function(value){
           if(value){
+            console.log($scope.regex);
             validateWithOptions();
             setTimeout(function () {
               setInputWidth();
@@ -42,11 +36,12 @@
 
         init();
         //Pattern for email
-        $scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        //$scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
 
         $scope.input.keyDown = function ($event) {
           var keyCode = $event.keyCode;
+          $scope.invalidTag = false;
           var isInputValueNull = ($scope.mailForm.input.$viewValue == undefined || $scope.mailForm.input.$viewValue == "");
 
           var hotKeys = [KEYS.backspace, KEYS.delete, KEYS.left,KEYS.right];
@@ -60,7 +55,10 @@
             $scope.selectedIndex = -1;
 
             if($scope.addedKeys.indexOf(keyCode) != -1){
-              if(!isValidInput()) return;
+              if(!isValidInput()) {
+                $scope.invalidTag = true;
+                return;
+              };
               addTagToList($event);
             }
           }
@@ -77,6 +75,10 @@
           if(isValidInput()){
             addTagToList();
           }
+          else if($scope.mailForm.input.$viewValue){
+            $scope.invalidTag = true;
+          }
+
 
         };
 
@@ -88,9 +90,7 @@
           $scope.selectedIndex = -1;
         };
 
-        // $scope.isValidInputTest = function () {
-        //   isValidInput();
-        // }
+
 
         function isValidInput() {
 

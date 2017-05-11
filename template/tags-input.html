@@ -37,7 +37,7 @@
             ng-focus="input.focus($event)"
 			ng-click="input.click($event)"
             ng-blur="input.blur($event)"
-            ng-class="{'invalid-tag': !isValidInput()}"
+            ng-class="{'invalid-tag': invalidTag}"
             ng-pattern="regex"
             autocomplete="off"
             ng-style="{'width': inputWidth && mailForm.input.$viewValue  ? inputWidth+'px' : 'auto'}"

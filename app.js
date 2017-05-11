@@ -11,7 +11,7 @@ app.controller('MainController',["$scope",function ($scope) {
         email:"bb@gmail.com"
       };
 
-      $scope.x = 5;
+      $scope.regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
       $scope.added = function ($tag) {
         console.log($tag);
@@ -22,7 +22,7 @@ app.controller('MainController',["$scope",function ($scope) {
           {id:2 ,email: 'bb@gmail.com'},
           {id:3 ,email: 'cc@gmail.com'},
           {id:4 ,email: 'dd@gmail.com'},
-		  {id:5 ,email: 'ee@gmail.com'},
+		      {id:5 ,email: 'ee@gmail.com'},
         ];
 
       $scope.errorMessages = {
