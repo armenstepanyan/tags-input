@@ -7,6 +7,11 @@ Custom tags-input directive angular@1.5.6
 * git clone https://github.com/armen5/tags-input.git
 * npm install
 
+### Use http-server ###
+npm install http-server -g
+Go to http://127.0.0.1:8080/
+https://www.npmjs.com/package/http-server
+
 # Usage
 
 ```sh
