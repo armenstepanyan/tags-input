@@ -8,9 +8,16 @@ Custom tags-input directive angular@1.5.6
 * npm install
 
 ### Use http-server ###
-npm install http-server -g
+`npm install http-server -g`
 Go to http://127.0.0.1:8080/
+
 https://www.npmjs.com/package/http-server
+
+### Avaible keys ###
+
+* Left, Right arrows to select item
+* Delete, BackSpace to delete selected item
+* Double click on item for editing
 
 # Usage
 
